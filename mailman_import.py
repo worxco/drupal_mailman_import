@@ -7,6 +7,11 @@ import subprocess
 import os
 
 
+"""
+	Function: load_flist
+	Purpose: build a dictionary that contains the filename and full path.
+	The file name is the key and will be sorted later, since the hash by definition, has no order.
+"""
 def load_flist(sdir,flist):
 	list = dircache.listdir(sdir)
 	for item in list:
