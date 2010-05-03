@@ -9,8 +9,13 @@ import os
 
 """
 	Function: load_flist
-	Purpose: build a dictionary that contains the filename and full path.
-	The file name is the key and will be sorted later, since the hash by definition, has no order.
+	Parameters:
+		sdir - Source Directory
+		flist - File List (Dictionary hash)
+	Purpose: 
+		Build a dictionary that contains the filename and full path.
+		The file name is the key and will be sorted later, since the 
+		hash by definition, has no order.
 """
 def load_flist(sdir,flist):
 	list = dircache.listdir(sdir)
@@ -19,6 +24,15 @@ def load_flist(sdir,flist):
 		if os.path.isfile(fqn) and re.match("[0-9]*.html",item):
 			flist[item] = fqn
 
+"""
+	Function: do_sub
+	Parameters;
+		sdir - Source Directory
+		flist - File List (Dictionary hash)
+	Purpose:
+		Process a subdirectory and and find all of its subdirectories that
+		match a pattern of YYYY-string where YYYY is a century year.
+"""
 def do_sub(sdir,flist):
 	dlist = dircache.listdir(sdir)
 	for item in dlist:
@@ -26,6 +40,19 @@ def do_sub(sdir,flist):
 		if os.path.isdir(path) and re.match("[12][0-9][0-9][0-9]-",item):
 			load_flist(path,flist)
 
+"""
+	Function: load_drupal
+	Parameters: 
+		sdir - Source Directory
+		flist - File List (Dictionary hash)
+	Purpose:
+		Sort the keys in the flist hash.
+		process each file in order.
+		parse data from each file into temp variables
+		write the variable out to a temp file with a specific structure
+		call a drush script to read the temp file and input it as a node in Drupal
+		
+"""
 def load_drupal(sdir,flist):
 	keys = flist.keys()
 	keys.sort()
@@ -101,7 +128,14 @@ def load_drupal(sdir,flist):
 		p1 = subprocess.call(['/usr/bin/drush', '-u', '1', 'scr', 'drush_mailman'])
 		os.chdir(cur)
 
-
+"""
+	Main Routine
+	Purpose:
+		Initialize flist
+		get a list of directories in the Current Working Directory"
+		build out flist
+		process the completed flist and call the Drupal routine for each file.
+"""
 dlist = dircache.listdir(".")
 for dir in dlist:
 	if os.path.isdir(dir):
