@@ -1,0 +1,20 @@
+There are 2 files that are part of this system.
+* mailman_import.py
+* drush_mailman.php
+
+The mailman_import.py script needs to be placed in the sites/default/files directory of your Drupal installation.
+
+The drush_mailman.php script needs to be placed in the sites/default directory of your Drupal installation.
+
+
+---
+Implementation
+---
+
+Create a Content Type that has Title and Body. I named mine listserve.
+
+You will want to update the drush_mailman.php script so that it points to the content type ( if you don't use the 'listserve' name ) that you are going to save all the mailman scripts into.
+
+setup a cron job to run an rsync command to pull the archives across.
+
+
