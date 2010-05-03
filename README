@@ -16,5 +16,8 @@ Create a Content Type that has Title and Body. I named mine listserve.
 You will want to update the drush_mailman.php script so that it points to the content type ( if you don't use the 'listserve' name ) that you are going to save all the mailman scripts into.
 
 setup a cron job to run an rsync command to pull the archives across.
+If you don't want ALL the lists, you could run this once for each list you want and just add the listname to the end (/var/lib/mailman/archives/private/<listname>/*)
+	rsync -av --exclude=*.mbox --exclude=attachments --exclude=*.gz --exclude=*.txt --exclude=database <user>@<mailmanserver>:/var/lib/mailman/archives/private/* .
+
 
 
